@@ -1,1 +1,51 @@
+REALM
 
+I. Setup
+    0. Refer to:
+        - Example project: https://github.com/appbrewery/Todoey-Realm-iOS13-Completed
+        - 
+    1. Pod:   pod 'RealmSwift'
+    2. AppDelegate
+        func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+            // print(Realm.Configuration.defaultConfiguration.fileURL)
+            do {
+                let realm = try Realm()
+            } catch {
+                print("Error initialising new realm, \(error)")
+            }
+            return true
+        }
+    3. VC use realm
+        - import RealmSwift
+        - Define: let realm = try! Realm()
+    4. Load data
+        // Use realm.objects(Category.self) to load data
+        func loadCategories() {
+            categories = realm.objects(Category.self)
+            tableView.reloadData()
+        }
+    5. Save data
+        let newCategory = Category()
+        newCategory.name = textField.text!
+        newCategory.colour = UIColor.randomFlat().hexValue()
+        self.save(category: newCategory)
+        
+        func save(category: Category) {
+            do {
+                try realm.write {
+                    realm.add(category)
+                }
+            } catch {
+                print("Error saving category \(error)")
+            }
+            tableView.reloadData()
+        }
+   6. Delete data
+        do {
+            try self.realm.write {
+                self.realm.delete(categoryForDeletion)
+            }
+        } catch {
+            print("Error deleting category, \(error)")
+        }
+    
