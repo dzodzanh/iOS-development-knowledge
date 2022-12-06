@@ -1,0 +1,95 @@
+
+I. CORE DATA
+0. Refer to:
+- Example project: https://github.com/appbrewery/Todoey-CoreData-iOS13-Completed
+- Predicate cheatshet: https://academy.realm.io/posts/nspredicate-cheatsheet/
+1. Set up
+- AppDelegate:
+    func applicationWillTerminate(_ application: UIApplication) {
+
+        self.saveContext()
+    }
+    
+    // MARK: - Core Data stack
+    
+    lazy var persistentContainer: NSPersistentContainer = {
+
+        let container = NSPersistentContainer(name: "DataModel")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
+    
+    // MARK: - Core Data Saving support
+    
+    func saveContext () {
+        let context = persistentContainer.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
+  
+- Create data model
+  + Entity: check class definition
+  + Relationship: to one || to many
+
+- Define variable context in VC use core data:
+let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
+2. Load items
+    // Example load items
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        loadItems(with: request, predicate: predicate)
+    }
+    
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) {
+        // Set request predicate
+        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+        if let addtionalPredicate = predicate {
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, addtionalPredicate])
+        } else {
+            request.predicate = categoryPredicate
+        }
+
+        // Fetch from coredata through context
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
+        }
+        
+        tableView.reloadData()
+        
+    }
+    
+3. Save items
+    // Example
+    let newItem = Item(context: self.context)
+    newItem.title = textField.text!
+    newItem.done = false
+    newItem.parentCategory = self.selectedCategory
+    self.itemArray.append(newItem)
+    self.saveItems()
+
+    // Just save context. Suprise?
+    func saveItems() {
+        do {
+          try context.save()
+        } catch {
+           print("Error saving context \(error)")
+        }
+        self.tableView.reloadData()
+    }
