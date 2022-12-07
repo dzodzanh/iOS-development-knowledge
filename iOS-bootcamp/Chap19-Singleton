@@ -1,0 +1,7 @@
+0. Refer to: https://matteomanferdini.com/swift-singleton/
+1. Reason should not use singleton
+  + Singletons provide a globally mutable shared state: When any part of an app can access or change the global state, you get weird and hard to fix bugs.
+  + Singletons encourage code with unclear separation: it’s hard to keep track of it when specifications change and code needs to be updated
+  + Singletons carry state around for the lifetime of the application: In a singleton, instead, resetting state might not be so natural and might require specific and complex code
+  + Code that uses singletons is hard or impossible to test
+2. Replacing singletons with dependency injection
