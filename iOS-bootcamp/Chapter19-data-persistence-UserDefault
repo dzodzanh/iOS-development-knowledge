@@ -1,0 +1,21 @@
+1. Setup
+- Define: default = Userdefaults.standard
+- Get directory of plist:
+  print(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)
+  
+  In terminal: cd <directory> -> cd ../Library/Preferences -> <...>.plist
+
+2. Save data
+let itemArray = [1, 2, 3]
+default.set(self.itemArray, forKey: "TodoListArray")
+
+3. Load data
+
+// For Array
+default.array(forkey: "TodoListArray") as! [String]
+// For Dictionary
+default.dictionary(forkey: "myDictionary")
+// For Float 
+default.float(forkey: "floatItemName") as! Float
+// For Date
+default.object(forkey: "dateKeyName") as! Date
