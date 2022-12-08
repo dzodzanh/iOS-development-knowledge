@@ -1,4 +1,87 @@
 Struct & Class
 
 
-asdfasdf
+1. The difference between struct and class
+  - Have stored properties & method
+  - Have init()
+  - Can extent by extension
+  - Can implement protocol
+2. The same between struct and class
+  - Type:
+    + struct: value type
+    + class: preference type
+    
+    Example:
+    struct Employee {
+      var code: Int
+      var name: String
+      var address: String
+    }
+    var a = Employee(code: 5, name: "BXH", address: "Sun*")
+    var b = a
+    b.name = "MH"
+    print(a.name) //  In ra "BXH"
+    print(b.name) // In ra "MH"
+    
+    
+    class Employee {
+      var code: Int
+      var name: String
+      var address: String
+
+      init(code: Int, name: String, address: String) {
+          self.code = code
+          self.name = name
+          self.address = address
+      }
+    }
+    var a = Employee(code: 5, name: "BXH", address: "Sun*")
+    var b = a
+    b.name = "MH"
+    print(a.name) // In ra  "MH"
+    print(b.name) // In ra "MH"
+    
+  - Inheritance: Class have, Struct not have
+  - Initializer:
+    + Class: define optional for properties or use init()
+    + Struct: Memberwise Initializer - init for properties is optional
+  - Deinit: class have, struct not have
+  - Change properties through method: struct need mutating keyword
+    class Employee {
+      var code: Int?
+      func changeCode(newCode: Int) {
+          self.code = newCode
+    }
+
+    struct OtherEmployee {
+        var code: Int
+        mutating func changeCode(newCode: Int) {
+            self.code = newCode
+        }
+    }
+  - Others:
+    + Class have type casting: is & as keyword
+    + Class have === and !== to compare instance
+    
+3. When use struct or class
+  - Struct:
+    + if you need to store basic like: Int, Float, String, ...
+    + Don't need to init (memberwise initializers)
+  - Class:
+    + if you need to refer the same instance everywhere
+    + Inheritance from super class of UIKit
+4. How to change property of struct & class
+  - Struct need use keyword mutating
+  
+    class Employee {
+      var code: Int?
+      func changeCode(newCode: Int) {
+          self.code = newCode
+    }
+
+    struct OtherEmployee {
+        var code: Int
+        mutating func changeCode(newCode: Int) {
+            self.code = newCode
+        }
+    }
