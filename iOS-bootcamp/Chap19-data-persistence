@@ -1,4 +1,14 @@
 0. Refer to
   - Property list: https://matteomanferdini.com/how-to-persist-data-in-ios-apps-using-property-lists-and-the-correct-architecture-for-handling-persistent-storage/
   - Storage technologies: https://matteomanferdini.com/which-storage-technologies-are-available-in-ios-and-which-ones-you-should-use/
-1. 
+1. User default
+  - Advantages:
+    + Easy to use: since you don’t have to worry about how to access the file system, how to create and read files and which file format to use
+    + Can store any kind of data
+    + Shared across devices through iCloud.
+  - Disadvantages: the space for user defaults is limited and they can be quite slow. This makes them practical only for small portions of data
+  - Use it for: store flag, settings of an app.
+  - Not use it for: 
+    + it’s better to use them only for preferences and settings and not to store other kinds of data
+    => For those, use one of the other iOS storage technologies.
+2. 
