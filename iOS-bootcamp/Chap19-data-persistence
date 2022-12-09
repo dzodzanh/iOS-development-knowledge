@@ -1,7 +1,8 @@
 0. Refer to
   - Property list: https://matteomanferdini.com/how-to-persist-data-in-ios-apps-using-property-lists-and-the-correct-architecture-for-handling-persistent-storage/
   - Storage technologies: https://matteomanferdini.com/which-storage-technologies-are-available-in-ios-and-which-ones-you-should-use/
-1. User default
+  
+1. User default: Storing preferences and settings in the user defaults system
   - Advantages:
     + Easy to use: since you don’t have to worry about how to access the file system, how to create and read files and which file format to use
     + Can store any kind of data
@@ -11,4 +12,54 @@
   - Not use it for: 
     + it’s better to use them only for preferences and settings and not to store other kinds of data
     => For those, use one of the other iOS storage technologies.
-2. 
+    
+2. Property lists: storing hierarchical data in property lists
+  - What to use it for: property lists work best with hierarchical data (XML, HTML and JSON)
+  - Advatages:
+    + The NSArray and NSDictionary classes provide methods that make writing and reading property list files very easy.
+    + Immediately available storage technology in iOS
+  - Disadvantages:
+    + Although property lists can also store binary data, they are inefficient with large blocks of it. 
+      Property lists work best with data that takes only a few hundreds of kilobytes.
+    + Moreover, there is no mechanism to migrate data as your app evolves and their format changes.
+  - What not to use it for:
+    + If the data in your app is not hierarchical but has more complex relationship graphs
+    => Core Data.
+    + In the case of binary data (images, videos, music, etc.)
+    => should write binary files directly to the file system
+    
+3. File system: Storing files in the file system
+  - What to use it for:
+    + Use the file system to property list files, binary data or documents.
+    + The file system is also useful for temporary caches containing data that is expensive to generate or download.
+    + Some directories are also backed up and stored in iCloud.
+  - Advantages:
+    + Allows you to organize files in different directories
+    + With different policies for back ups and iCloud.
+    + Some of these direcories can be used for temporary data and are flushed by the system when the space on the disk becomes low.
+  - Disadvantages:
+    + If you need to make more complex file operations like deleting, copying or moving, the file system is not as immediate to use as other technologies.
+    + Requires to understand how a file system works
+    + Requires to pay attention to the size and lifetime of your stored data.
+  - What not to use it for:
+    + Does not fit into separate files
+    + Needs to be queried in different ways
+    => Core Data might be a better choice.
+
+4. Core Data: managing data with complex relationships with Core Data
+  - What to use it for:
+    + The data has complex relationships
+  - Advantages: Core Data does not offer only storage, but has many other benefits, including undo management, partial data fetching, versioning and migration, iCloud synching and much more. It can also be used in document based apps.
+  - Disadvantages: given all it offers, Core Data is a complex beast to tame. Whole books and courses have been written over its complexities. Nonetheless, many apps do not need everything Core Data offers and end using only a limited subset of its functionalities.
+  - What not to use it for: 
+    + If you need to store simple, structured data in your app, Core Data might be an overkill and you are probably better served by property lists.
+    + Moreover Core Data is designed to manage relational data.
+    Even though it can contain binary data,
+    it could be better to store it in the file system,
+    where you can take advantage of directories and other policies for backing up and lifetime.
+  
+  
+  
+  
+  
+  
