@@ -1,0 +1,57 @@
+Memory handle
+
+1. ARC (automatic reference counting)
+  - keep track strong references to instance of class
+  - Increase/decrease reference count when assign/unassign instance to variable, constant, property
+  - When reference count = 0 => the memory use by the instance will be free
+  - Use only for reference value
+
+2. Strong reference cycle
+  - What is strong reference cycle: 2 instances strongly reference to each other => reference count of 2 instances never down to 0
+    Example:
+      class Person {
+          var card: CreditCard?
+          var name: String
+
+          init(name: String) {
+              self.name = name
+          }
+      }
+
+      class CreditCard {
+          var assignee: Person
+          var number: String
+
+          init(number: String, assignee: Person) {
+              self.number = number
+          }
+      }
+
+      let lee = Person(name: "Lee")
+      let card = CreditCard(number: "12345678", assignee: lee)
+      lee.card = card
+  - Solution: Weak & Unowned
+      + Weak: the reference can be nil (optional)
+      + Unowned: the reference can not be nil (non-optional)
+      
+      For example: Person & CreditCard
+        class Person {
+            var name: String
+            weak var card: CreditCard?
+            // => The Person maybe not have any credit card
+        }
+        
+        class CreditCard {
+            var number: String
+            unowned var assignee: Person
+            // => The credit card must have person use it
+        }
+3. Strong reference cycle in closure
+   - Why:
+      + Closure is reference type
+      + The class instance is strong reference to closure
+      + Closure strong reference to class via self keyword
+   - Solution: weak self & unowned self
+    
+    
+    
