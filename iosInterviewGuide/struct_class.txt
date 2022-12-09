@@ -6,6 +6,7 @@ Struct & Class
   - Have init()
   - Can extent by extension
   - Can implement protocol
+  
 2. The same between struct and class
   - Type:
     + struct: value type
@@ -70,7 +71,8 @@ Struct & Class
   - Class:
     + if you need to refer the same instance everywhere
     + Inheritance from super class of UIKit
-4. How to change property of struct & class
+    
+4. How to change property of struct & class by its methods
   - Struct need use keyword mutating
   
     class Employee {
@@ -85,3 +87,7 @@ Struct & Class
             self.code = newCode
         }
     }
+    
+5. Why we can change the property of class constant
+- Class is reference type => the constant of class just a reference to instance of class
+- That constant means you can not reassign it to other instance
