@@ -1,0 +1,9 @@
+- MVC is Model, View, Controller
+  + Model: application data is presented by model
+  + View: responsible for drawing UI
+  + Controller: control the data flow between the view and the model
+  
+- Model & View never communicate with each other directly and instead rely on Controller to coordinate the communication
+- The limit of MVC
+  + It not suitable for the large project because we will put all the logic about the data and how to draw the UI in the controller.
+  It make the controller very big, make it hard to maintain, extend or debug
