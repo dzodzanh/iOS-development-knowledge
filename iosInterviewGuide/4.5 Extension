@@ -1,1 +1,9 @@
-
+1. What is extension
+  - Extension is used to add additional
+    + Computed properties
+    + Type properties
+    + Instance/type method
+    + Make existing class conform to protocol without subclassing
+2. Drawback:
+    + Globaly apply: it will applied to all instances of that type, even if they were created before extension was defined
+    + Cannot add stored properties
