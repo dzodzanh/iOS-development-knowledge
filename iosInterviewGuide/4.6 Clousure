@@ -1,0 +1,24 @@
+1. What is closure:
+  - Closure is a piece of code that will run later
+  - Closure is reference type
+  - Example:
+    + Declare: var closure_name: ((parameters) -> return_type )?
+    + Implement:
+        let closure = { (param1: String, param2: Int) -> String in
+            let result = "Đây là ví dụ về closure, gồm có 2 tham số \(param1) và \(param2), kiểu trả về là 1 string"
+            return result
+        }
+        print(closure("Hello", 1))
+        
+2. Retain cycle
+  - Use weak self or unowned self
+  class B {
+      var closure: ((String) -> Void)?
+  }
+  
+  class A {
+      let b = B()
+      b.closure = { [weak self] inputText in
+          // Do ST with inputText
+      }
+  }
