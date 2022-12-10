@@ -1,0 +1,105 @@
+0. Properties basic
+  - Strong reference by default
+  - Can use weak/unowned
+  - Swift enforces basic dependency injection for properties
+      + Initialized in the property declaration
+      + Has to injected in the designated initializer
+  
+1. Stored Properties
+  - Define with let or var in struct or class
+  
+2. Computed Properties (set/get)
+  - Set properties indirectly by setters/getters
+  - Example:
+      struct Point {
+          var x = 0.0, y = 0.0
+      }
+      struct Size {
+          var width = 0.0, height = 0.0
+      }
+      struct Rect {
+          var origin = Point()
+          var size = Size()
+          var center: Point {
+              get {
+                  let centerX = origin.x + (size.width / 2)
+                  let centerY = origin.y + (size.height / 2)
+                  return Point(x: centerX, y: centerY)
+              }
+              set(newCenter) {
+                  origin.x = newCenter.x - (size.width / 2)
+                  origin.y = newCenter.y - (size.height / 2)
+              }
+          }
+      }
+      var square = Rect(origin: Point(x: 0.0, y: 0.0),
+                        size: Size(width: 10.0, height: 10.0))
+      let initialSquareCenter = square.center
+      square.center = Point(x: 15.0, y: 15.0)
+      print("square.origin is now at (\(square.origin.x), \(square.origin.y))")
+      // Prints "square.origin is now at (10.0, 10.0)"
+  
+3. Property Observers (willset/didset)
+  - Listen to the change of property and do somthing in willset/didset
+      + willset: call before the property is change its value
+      + didset: call after the property is change its value
+  - Example:
+      class StepCounter {
+          var totalSteps: Int = 0 {
+              willSet(newTotalSteps) {
+                  print("About to set totalSteps to \(newTotalSteps)")
+              }
+              didSet {
+                  if totalSteps > oldValue  {
+                      print("Added \(totalSteps - oldValue) steps")
+                  }
+              }
+          }
+      }
+      let stepCounter = StepCounter()
+      stepCounter.totalSteps = 200
+      // About to set totalSteps to 200
+      // Added 200 steps
+      stepCounter.totalSteps = 360
+      // About to set totalSteps to 360
+      // Added 160 steps
+      stepCounter.totalSteps = 896
+      // About to set totalSteps to 896
+      // Added 536 steps
+
+4. Class or Type Properties
+  - Class/type properties is defined for entire class or type rather than for invididual instance of that type.
+  - It means the value of Type Properties is the same for all instance
+  - Example:
+      struct SomeStructure {
+          static var storedTypeProperty = "Some value."
+          static var computedTypeProperty: Int {
+              return 1
+          }
+      }
+      enum SomeEnumeration {
+          static var storedTypeProperty = "Some value."
+          static var computedTypeProperty: Int {
+              return 6
+          }
+      }
+      class SomeClass {
+          static var storedTypeProperty = "Some value."
+          static var computedTypeProperty: Int {
+              return 27
+          }
+          class var overrideableComputedTypeProperty: Int {
+              return 107
+          }
+      }
+  
+  5. Lazy Properties
+    - Lazy Properties has some setup but the setup will not call util the first use of that property
+    - Example:
+      lazy var label: UILabel = {
+          let lbl = UILabel()
+          lbl.text = "ABCD"
+          return lbl 
+      }
+
+  
