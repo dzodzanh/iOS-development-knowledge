@@ -1,0 +1,23 @@
+1. The diagram
+
+AppDidFinishLaunching -> ApplicationWillEnterForeground -> ApplicationDidBecomeActive -> ApplicationWillResignActive -> ApplicationDidEnterBackground -> ApplicationWillTerminate
+                                                                  ↑____________________________↑
+                                                                  
+2. App launch
+
+  - Step 1: AppDidFinishLaunching:                    application has finish launching
+  - Step 2: ApplicationWillEnterForeground:           will call after recieve phone call, messages, other system interupt
+  - Step 3: ApplicationDidBecomeActive                finish up the transition to foreground
+
+
+3. App terminate
+  - Step 1: applicationWillResignActive               is about to inactive (phone call, home button)
+  - Step 2: applicationDidEnterBackground             app enter background. you have 5s to back thing up
+  - Step 3: applicationWillTerminate                  is about to remove from the memory, do task to clean up
+  
+4. State of app
+  - Not running
+  - In-active: the app run on foreground but not recieve user interaction. It occur when receive phone call, messages
+  - active: the app run on foreground and receive user interaction
+  - background: app run on background and still run code. You have 5s to back things up before the app go into suspended
+  - Suspended: app run on background but not run code. In case low memory, the app will terminate and become not running
