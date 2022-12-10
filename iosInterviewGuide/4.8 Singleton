@@ -1,0 +1,7 @@
+1. What is singleton
+  - Singleton is the class that return only one and the same instance everywhere
+2. Why singleton is so bad
+  - Global access:
+      + Any part of your code can use and change the data store in singleton make them become unreliable
+        (we will not sure about the data in singleton is right)
+      + hard to unit test: some TC run before change the data of singleton, make the TC run after fail
