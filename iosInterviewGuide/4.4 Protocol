@@ -1,0 +1,63 @@
+1. What is protocol
+  - Protocol will define properties or method that the object adopt them should implement.
+  - Properties and method of protocol not a actual implementation, it just a description of that properties or method
+
+2. Declaration
+  - Properties
+    protocol Code {
+        // The properties is computed property
+        var experience: Int { get }
+        var language: String { get set }
+        // let level: String { get } // Error  
+    }
+
+  - Method
+    enum FeelHungry {
+        case yes
+        case no
+    }
+
+    protocol Human {
+        static func talk() // Type method
+        func eat(_ feelHungry: FeelHungry) // Instance method
+        func eat2(_ feelHungry: FeelHungry = .yes) // Error: Default argument not permitted in protocol method 
+    }
+    
+  - mutating keyword for struct and enum
+    protocol Activities {
+        mutating func eat()
+    }
+
+    enum State: Activities {
+        case hungry
+        case notHungry
+        mutating func eat() {
+            switch self {
+            case .notHungry:
+                print("Don't need to eat")
+            case .hungry:
+                print("Eat something")
+                self = .notHungry
+            }
+        }
+    }
+3. Optional protocol
+  - @objc optional => just only adopted by class
+      @objc protocol OptionalProtocol {
+          func mustImpletion()
+          @objc optional func optionalToImplement()
+      }
+  - extension
+      protocol OptionalProtocol {
+          func mustImpletion()
+      }
+      
+      extension OptionalProtocol {
+          func optionalMethod() {
+          }
+      }
+
+4. When is it used
+  - Delegation
+  - POP programing?
+  
