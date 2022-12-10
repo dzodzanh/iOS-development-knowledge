@@ -1,0 +1,26 @@
+1. Diagram
+
+              viewWillAppear            ->           viewDidAppear
+                  ↑                                        ↓
+              DISAPEARED                                APPEARED
+                  ↑                                        ↓
+              willDidDisapear           <-           viewWillDisapear  
+
+
+2. Call backs
+  - ViewWillAppear
+      + Call when VC was loaded in memory in the first time
+      + Setup UI + start get data
+  - viewWillAppear
+      + call when VC is about to appear on the screen
+      + call after viewDidLoad or view disapear and appear again
+  - layoutSubview
+      + call to adjust the subview
+  - viewDidAppear
+      + call after the view is appear on the scren
+  - viewWillDisapear
+      + Call when the view is about to become hidden
+      + When it not the top view controller
+  - viewDidDisapear
+      + Call after viewWillDisapear to indicate that the view is hidden
+  - 
