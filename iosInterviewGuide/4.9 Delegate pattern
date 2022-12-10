@@ -1,1 +1,49 @@
+1. What is delegation
+  - The delegation is the way that one class will assign the task to another class.
+  For example:
+      + class A will know when and which task should be impletion
+      + but class A not know how to implement and don't need to know to implement
+      + it just assign the task to class B, and class B will know impletion the task for class A
+  
+  - It use to transfer the data between class or struct
+  
+2. Example
+    // This protocol will hold everything the manager class needs their assistant to do
+    protocol ManagerDelegate {
+        func doLaundry(for manager: Manager, laundry: [Clothes]) -> [Clothes]
+        func howMuchMoneyDidWeMake() -> Int
+        func whatBearIsBest() -> String
+    }
 
+    class Manager {
+        // the manager doesn't care what class their assistant is,
+        // only that they can do what the manager needs them to do
+        weak var assistant: ManagerDelegate? 
+
+        // whenever the manager needs those tasks done, they just have the assistant do it
+        func performEndOfDayTasks() {
+            if today.isMonday {
+                cleanClothes = assistant.doLaundry(for: self, laundry: dirtyClothes)
+            } else if today.isFriday {
+                let profit = assistant.howMuchMoneyDidWeMake()
+                tellBoss("We made \(profit) dollars this week boss!")
+            }
+        }
+    }
+
+    // The assistant adopts the protocol and this code will not compile
+    // unless they meet all the requirements of the protocol
+    class Assistant: ManagerDelegate {
+        func doLaundry(for manager: Manager, laundry: [Clothes]) -> [Clothes] {
+            var cleanClothes = washClothes(laundry) 
+            dryClothes(cleanClothes)
+            foldClothes(cleanClothes)
+            return cleanClothes
+        }
+        func howMuchMoneyDidWeMake() -> Int {
+            return ledger.profit
+        }
+        func whatBearIsBest() -> String {
+            return "There are basically two schools of thought..."
+        }
+    }
