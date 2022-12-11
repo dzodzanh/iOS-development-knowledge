@@ -1,0 +1,11 @@
+
+1. What is the service layer will handle
+	- HTTP APIs
+	- GPS location
+	- Bluetooth
+	- iCould
+	- Sockets
+
+2. HTTP API
+	- APIClient (Target): prepare URL, method, params
+	- Service: perform request and return the parse data
