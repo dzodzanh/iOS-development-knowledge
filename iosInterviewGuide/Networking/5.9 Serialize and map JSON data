@@ -1,0 +1,28 @@
+0. General
+  - When we receive the JSON or XML response from the backend API we need
+    + Step 1: serialize data
+    + Step 2: mapping data
+
+1. Data Serialize:
+  - Convert the JSON response to Dictionary
+  - Example:
+      + JSON reponse:
+          {
+              post: {
+                  title: 'This is an awesome post!',
+                  body: 'Loads of text ...',
+                  tags: ['Awesomeness', 'Coolness', 'Greatness!'],
+              }
+          }
+      + Serialize object from json response
+          var post = [String: AnyObject]()
+          post["title"] = "This is an awesome post!" as AnyObject?
+          post["body"] = "Loads of text ..."
+          post["tags"] = ["Awesomeness", "Coolness", "Greatness!"] as AnyObject?
+      
+ 2. Data mapping
+    - Map the dictionary to custom model
+    - 2 way to data mapping
+        + You can manually, take the value of each key and
+    assign them to the properties of custom model
+        + Mantle or ObjectMapper: these library will help declare key/property mapping
