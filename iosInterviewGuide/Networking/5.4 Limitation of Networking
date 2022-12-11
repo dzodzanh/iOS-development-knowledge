@@ -1,0 +1,11 @@
+- The request can take time if
+    + upload or download a large file
+    + in case poor connection
+    
+- Handle the async, because the data return form the server will not return in order we want
+
+- For example: load user image get from the server to a tableview
+	=> Problem: the download will take time and not return in order
+	=> Solution:
+		+ Take time: Just download the image enough to show on the screen and some back up images
+		+ Not in order: Need to compare the id to make sure the image is right with the user
