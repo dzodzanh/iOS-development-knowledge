@@ -1,0 +1,20 @@
+1. General
+	- Networking should be code into service layer.
+	- Separated the networking with others layers like: UI, Logic, Storage
+
+2. Service layer
+  - Should divide in to 3 objects
+		+ Networking manager object: NSURLSession, AFNetworking/Alamofire manager
+		+ Target object: this object will prepare for the request like: URL, method, params, …. The networking manager will use these prepare to perform HTTP request.
+		+ Service object:
+			.  They will pass the input to Target object to prepare the request.
+			.  Then parse and return the data from the response of the request to the caller
+			.  Each resources should have one service such as  UsersService, PostsService, SearchService
+	- All the other parts of the app are working only with the service object, and never touch low-level implementation such as APIClient or NSURLSession/AFNetworking/Alamofire
+
+3. Example
+	- Say as you want to search the user name to get the user detail
+	- In your VM you will call the search method in SearchService, and pass the keyword from the user to that method
+	- This search method will pass the keyword the target. This target will prepare URL, method, params for the manager.
+	- Manager perform request with these prepare and return the response to the service
+	- Finally, service will parse the data and return it to the VM. The VM will handle the data to do something
