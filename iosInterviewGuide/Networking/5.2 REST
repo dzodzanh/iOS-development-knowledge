@@ -1,0 +1,37 @@
+1. What is REST
+	- REST is an API architecture handle resources and HTTP methods
+	- Each resource will have set of url that can receive some HTTP method to CRUD (Create, Read, Update, Delete)
+
+2. Example: If you manage users
+	- return all the users from the server
+		+ https://yourDomain.com/users
+		+ Method: GET
+	- return a single user with given ID
+		+ https://yourDomain.com/users/123
+		+ Method: GET
+	- Create new user with data provided by iOS app
+		+ https://yourDomain.com/users
+		+ Method: POST
+	- Update some data of user with ID 123
+		+ https://yourDomain.com/users/123
+		+ Method: PATCH
+	- Replace entire set of data in a specific user with ID 123
+		+ https://yourDomain.com/users/123
+		+ Method: PUT
+	- Delete the user with ID 123
+		+ https://yourDomain.com/users/123
+		+ Method: DELETE
+
+3. RESTful API support to return status code of request
+	- 2xx: Success
+		+ 200: GET request success (OK)
+		+ 201: POST request success (Created)
+	- 4xx: Client Error
+		+ 400: Bad request
+		+ 401: Unauthorized
+		+ 404: Not found
+	- 5xx: Server Error:
+		+ 500: Internal server error
+		+ 501: Not implemented
+		+ 502: bad gateway
+		
