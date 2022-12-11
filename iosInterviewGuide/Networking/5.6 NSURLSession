@@ -1,7 +1,7 @@
 1. What is NSURLSession
-  - NSURLSession allow to do HTTP connection like:
-      + Send HTTP request
-      + download files
+  - NSURLSession is standard iOS technologies for Networking
+      + Perform HTTP request
+      + Download files
   -  NSURLSession allow
       + Configure cache and execute the requests in background
       + resume, cancel or pause networking task
