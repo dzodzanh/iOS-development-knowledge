@@ -1,0 +1,38 @@
+1. What is AFNetworking/Alamofire
+  - AFNetworking/Alamofire is library base on NSURLSession to do Networking
+  but it more convenient and reduce the setup we have to do when
+  we work with NSURLSession directly
+  
+  - With it, we can
+      + Setup HTTP request headers, params
+      + perform HTTP GET/POST/PUT requests
+      + Serialize JSON response
+      + Do basic HTTP authentication
+      + Upload and download files
+      
+2. How is it used
+  - EX1: minimal setup request
+      Alamofire.request("https://httpbin.org/get").responseJSON { response in
+          print(response.request)       // original URL request
+          print(response.response)      // HTTP URL response
+          print(response.data)          // server data
+          print(response.result)        // result of response serialization
+
+          if let JSON = response.result.value {
+              print("JSON: \(JSON)")
+          }
+      }
+
+  - EX2: setup a session manager and use it to send requests
+      let configuration = URLSessionConfiguration.default
+      let sessionManager = Alamofire.SessionManager(configuration: configuration)
+      
+      sessionManager.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default)
+                    .responseJSON { [weak self] response in
+                        if let json = response.result.value as? [String: String] {
+                            // Do something if it was success
+                        } else {
+                            // Do something if it was failure
+                        }
+                    }
+                    
