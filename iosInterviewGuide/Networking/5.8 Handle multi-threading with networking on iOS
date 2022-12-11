@@ -1,0 +1,18 @@
+1. General
+  - When working with multi-threading on iOS, we do not want to block the main UI thread
+  => Every networking request should be execute on a background thread
+  
+2. Solution
+  - The third-party library (Alamofire/AFNetworking) and NSURLSession already have
+  threading mechanics build in execute their requests on a background thread and
+  call completion blocks on the main thread
+  - All the HTTP requests the NSURLSession makes are executed on a background thread,
+  and it could be either configure to excute completion callback on the main thread
+  or on a background thread
+  
+  => If your callback is executed on a background thread but you need to do some UI updates,
+  we use GCD blocks
+  
+  DispatchQueue.main.async {
+      // update UI
+  }
