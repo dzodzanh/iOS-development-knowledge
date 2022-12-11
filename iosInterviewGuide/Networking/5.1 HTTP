@@ -1,0 +1,10 @@
+1. HTTP (Hypertext Transfer Protocol)
+	- HTTP is a protocol that help the application communicate with backend APIs
+	- What is resources: For example, if you manage students of the school, then every student is an resource
+2. Method
+  - HEAD: return status code (200, 300, 400)
+  - GET: return one or list of resource
+  - POST: submit resource to the server
+  - PATCH: change only some data of resource
+  - PUT: will override the whole data of resource except the ID
+  - DELETE: remove the data
