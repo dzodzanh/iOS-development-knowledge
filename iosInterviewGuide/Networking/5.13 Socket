@@ -1,0 +1,9 @@
+1. What is socket
+  - Socket is technology help to comunicate between client and server in nearly realtime
+  - Socket ussually apply to chat, live stream
+  
+2. Example
+  - Consider we are using Facebook messenger
+  - When user tap to one chat, app will subcribe to the chat channel using socket
+  - As soon as it subcribe to the channel, it will receive a bunch of message since the last connection
+  and start receiving and sending new message
