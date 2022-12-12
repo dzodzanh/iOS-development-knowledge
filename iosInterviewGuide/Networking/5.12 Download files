@@ -14,76 +14,92 @@
         . The only wat to download too big files
 
 2. Example NSURLSession 
-    if var URL = NSURL(string: "http://www.mywebsite.com/myfile.pdf") {
-        Downloader.load(URL)
-    }
-
     class Downloader {
-        // In memory
-        class func load(URL: NSURL) {
-            let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
-            let session = NSURLSession(configuration: sessionConfig, delegate: nil, delegateQueue: nil)
-            let request = NSMutableURLRequest(URL: URL)
-            request.HTTPMethod = "GET"
-            let task = session.dataTaskWithRequest(request, completionHandler: { (data: NSData!, response: NSURLResponse!, error: NSError!) -> Void in
-                if (error == nil) {
-                    // Success
-                    let statusCode = (response as NSHTTPURLResponse).statusCode
-                    println("Success: \(statusCode)")
-
-                    // This is your file-variable:
-                    // data
+        // In-memory
+        class func load(url: URL, completion: @escaping (Data?) -> Void) {
+            let session = URLSession(configuration: .default)
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            let task = session.dataTask(with: request) { (data, response, error) in
+                if error == nil {
+                    let statusCode = (response as? HTTPURLResponse)?.statusCode
+                    // Do something with data
+                    completion(data)
+                } else {
+                    print("Failure \(error?.localizedDescription ?? "")")
                 }
-                else {
-                    // Failure
-                    println("Failure: %@", error.localizedDescription);
-                }
-            })
+            }
             task.resume()
         }
         
-        // Disk storage
-        class func load(url: URL, to localUrl: URL, completion: @escaping () -> ()) {
-            let sessionConfig = URLSessionConfiguration.default
-            let session = URLSession(configuration: sessionConfig)
-            let request = try! URLRequest(url: url, method: .get)
+        // Save from tmp to disk (document)
+        class func load(url: URL, to localUrl: URL, completion: @escaping () -> Void) {
+            let session = URLSession(configuration: .default)
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
 
-            let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
-                if let tempLocalUrl = tempLocalUrl, error == nil {
-                    // Success
+            let task = session.downloadTask(with: request) { tmpLocalUrl, response, error in
+                if let tmpLocalUrl = tmpLocalUrl, error == nil {
                     if let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                        print("Success: \(statusCode)")
+                        print(statusCode)
                     }
 
                     do {
-                        try FileManager.default.copyItem(at: tempLocalUrl, to: localUrl)
+                        try FileManager.default.copyItem(at: tmpLocalUrl, to: localUrl)
                         completion()
-                    } catch (let writeError) {
-                        print("error writing file \(localUrl) : \(writeError)")
+                    } catch (let error) {
+                        print("Error writing file \(localUrl): \(error.localizedDescription)")
                     }
-
                 } else {
-                    print("Failure: %@", error?.localizedDescription);
+                    print("Error writing file \(localUrl): \(error?.localizedDescription ?? "")")
                 }
             }
             task.resume()
         }
     }
+    
+    func downloadImage_InMemory_NSURLSession() {
+        guard let url = URL(string: "https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg") else { return }
+        Downloader.load(url: url) { data in
+            if let data = data, let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    self.imageView.image = image
+                }
+            }
+        }
+    }
+    
+    func downloadImage_toDisk_NSURLSession() {
+        guard let url = URL(string: "https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg") else { return }
+        if var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            documentsURL.append(path: "test.jpg")
+            print(documentsURL)
+            Downloader.load(url: url, to: documentsURL) {
+                print("Download completed")
+            }
+        }
+    }
+    
 3. Example Alamofire
   // temporaryURL
-  Alamofire.download(urlString).responseData { response in
+  Alamofire.download(url).responseData { response in
       print("Temporary URL: \(response.temporaryURL)")
   }
   
   // To disk
-  let destination: DownloadRequest.DownloadFileDestination = { _, _ in
-          var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-          documentsURL.appendPathComponent("duck.png")
-          return (documentsURL, [.removePreviousFile])
+  class func alamofireLoad(url: URL) {
+      guard let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?
+                                    .appendingPathComponent(url.lastPathComponent) else { return }
+      let destination: DownloadRequest.Destination = { _, _ in
+          return (destinationURL: fileURL, options: [.removePreviousFile])
       }
-
-      Alamofire.download(url, to: destination).responseData { response in
-      if let destinationUrl = response.destinationURL ? {
-          completionHandler(destinationUrl)
+      AF.download(url, to: destination).response { responseData in
+          switch responseData.result {
+          case .success(let url):
+              guard let url = url else { return }
+              print(url)
+          case .failure(let error):
+              print(error)
+          }
       }
   }
