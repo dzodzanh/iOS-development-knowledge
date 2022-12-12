@@ -1,0 +1,56 @@
+0. General
+  - There are 2 things we need to care about when working with images download from the web
+      + downloading: perform HTTP request to get raw image data from the web
+      + caching: take care about storing the dowloaded images to disk, database, or in-memory cache
+  - We can download image by 2 way
+      + Use NSURLSession: code is long
+      + Use libary AFNetworking/Alamofire
+      + Use library SDWebImage: Not support SwiftUI
+      + User libray Kingfisher: 
+          .downloading & caching, set UIImageView extension to download images,
+                                along with placeholder images and download progress reporting
+
+1. Use NSURLSession
+  - NSURLSession -> NSData -> UIImage
+  - Backward: performance is not good
+  - Example:
+      extension UIImageView {
+          func download(from urlString: String, contentMode mode: ContentMode = .scaleAspectFit) {
+              contentMode = mode
+              if let url = URL(string: urlString) {
+                  let session = URLSession(configuration: .default)
+                  let task = session.dataTask(with: url) { response, data, error in
+                      guard
+                        let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200,
+                        let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                        let data = data, error == nil,
+                        let image = UIImage(data: data)
+                        else { return }
+                      DispatchQueue.main.async { [weak self] in
+                          self?.image = image
+                      }
+                  }
+                  task.resume()
+              }
+          }
+      }
+
+2. Use Alamofire
+  
+3. Use SDWebImage/Kingfisher:
+
+    // Not suport SwiftUI, preheat
+    func loadImage_SDWebImage() {
+        let imageURL = URL(string: "https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg")!
+        imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
+        imageView.sd_setImage(with: imageURL)
+    }
+    
+    // Not support preheat
+    func loadImage_Kingfisher() {
+        let imageURL = URL(string: "https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg")!
+        imageView.kf.indicatorType = .activity
+        imageView.kf.setImage(with: imageURL)
+    }
+
+4. Nuke: https://www.kodeco.com/1337-what-is-nuke#toc-anchor-008
