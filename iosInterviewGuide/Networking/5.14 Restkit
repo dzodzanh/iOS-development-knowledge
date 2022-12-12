@@ -1,0 +1,9 @@
+- Restkit is an data synchronization framwork to
+  + perform HTTP request
+  + JSON serialization
+  + JSON mapping & parsing
+- Restkit is not popular these day, we can use this instead
+  + perform HTTP request: Alamofire
+  + JSON serialization: NSJSONSerialization or Alamofire
+  + JSON mapping & parsing: Mantle or ObjectMapper
+  + Core data synchronization and mapping from/to custom domain model can be taken by Mantle
