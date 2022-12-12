@@ -1,0 +1,89 @@
+1. How to download files on iOS
+  - Step 1: Get the data
+    + Use URLSession's NSURLSessionDataTask or
+    + Alamofire
+  - Handle the data from get request. There are 3 ways:
+    + Work with data right after we recieved it (in-memory):
+        . can work best with small size files.
+        . if the file is too big, it could take time to donwload
+    + Store file in temporary folder: 
+        . Help postpone handle the file until the file is completly downloaded
+        . Files are kept in temp folder only when app running
+    + Store file on disk:
+        . Allow access it later
+        . The only wat to download too big files
+
+2. Example NSURLSession 
+    if var URL = NSURL(string: "http://www.mywebsite.com/myfile.pdf") {
+        Downloader.load(URL)
+    }
+
+    class Downloader {
+        // In memory
+        class func load(URL: NSURL) {
+            let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
+            let session = NSURLSession(configuration: sessionConfig, delegate: nil, delegateQueue: nil)
+            let request = NSMutableURLRequest(URL: URL)
+            request.HTTPMethod = "GET"
+            let task = session.dataTaskWithRequest(request, completionHandler: { (data: NSData!, response: NSURLResponse!, error: NSError!) -> Void in
+                if (error == nil) {
+                    // Success
+                    let statusCode = (response as NSHTTPURLResponse).statusCode
+                    println("Success: \(statusCode)")
+
+                    // This is your file-variable:
+                    // data
+                }
+                else {
+                    // Failure
+                    println("Failure: %@", error.localizedDescription);
+                }
+            })
+            task.resume()
+        }
+        
+        // Disk storage
+        class func load(url: URL, to localUrl: URL, completion: @escaping () -> ()) {
+            let sessionConfig = URLSessionConfiguration.default
+            let session = URLSession(configuration: sessionConfig)
+            let request = try! URLRequest(url: url, method: .get)
+
+            let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
+                if let tempLocalUrl = tempLocalUrl, error == nil {
+                    // Success
+                    if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                        print("Success: \(statusCode)")
+                    }
+
+                    do {
+                        try FileManager.default.copyItem(at: tempLocalUrl, to: localUrl)
+                        completion()
+                    } catch (let writeError) {
+                        print("error writing file \(localUrl) : \(writeError)")
+                    }
+
+                } else {
+                    print("Failure: %@", error?.localizedDescription);
+                }
+            }
+            task.resume()
+        }
+    }
+3. Example Alamofire
+  // temporaryURL
+  Alamofire.download(urlString).responseData { response in
+      print("Temporary URL: \(response.temporaryURL)")
+  }
+  
+  // To disk
+  let destination: DownloadRequest.DownloadFileDestination = { _, _ in
+          var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+          documentsURL.appendPathComponent("duck.png")
+          return (documentsURL, [.removePreviousFile])
+      }
+
+      Alamofire.download(url, to: destination).responseData { response in
+      if let destinationUrl = response.destinationURL ? {
+          completionHandler(destinationUrl)
+      }
+  }
