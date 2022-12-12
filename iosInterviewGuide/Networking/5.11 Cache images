@@ -1,0 +1,6 @@
+- There are 3 way to cache images
+    + in-memory cache: NSCache
+    + Database storage: Realm or Core Data, but the database best use when handle a small size image like thumnail
+    + Disk storage: storeing downloaded files to the disk for quick later use
+    instead of doing another fetch from the server.
+- Use library: SDWebImage, Kingfisher, Nuke
