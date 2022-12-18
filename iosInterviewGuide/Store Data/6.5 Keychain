@@ -1,0 +1,4 @@
+- Keychain is secure key-value storage
+- Keychain persists between app reinstalls unlike: user defaults, files on disk, core data
+- Disadvantage: API is difficult to use. Not suitable to store large amount of data such as images, videos, databases
+- Use keychain to save tokens and passwords
