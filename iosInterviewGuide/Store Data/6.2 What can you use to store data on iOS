@@ -1,0 +1,14 @@
+Simple to complex
+1. In-memory arrays, dictionary, sets, data structures
+  + Advantage: fast, simple to use
+  + Disadvantage: can’t persisted, can’t used to store large data 
+2. NSUserDefaults/Keychain: simple key-value stores
+  + Advantage: fast, easy to use, persists thing to disk
+  + Disadvantage: can’t query data, can’t handle large data
+3. File/Disk storage: writing data to disk using NSFileManager
+  + Advantage: can handle big files
+  + Disadvantage: can’t query
+4. Core Data/Realm: is database
+  + Advantage: can handle large amounts of data, perfect to query and filter
+  + Disadvantage: need the setup and need to learn how to use
+5. SQLite
