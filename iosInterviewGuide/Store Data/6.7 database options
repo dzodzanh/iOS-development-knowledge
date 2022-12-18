@@ -1,0 +1,27 @@
+- Refer to: https://orangesoft.co/blog/realm-vs-sqlite
+
+- SQLite: relational database
+  + Advantage:
+      . Safe access from multiple processes and threads, 
+  + Disadvantage:
+      . Need to do all the setup to read, write data to it
+      . Difficult to manage complex database 
+      . The queries request is slow
+  => It suitable to 
+- Core Data: is built base on SQLite
+  + Advantage:
+    . It support by Apple => widely use
+    . Faster in fetching records than SQLite
+  + Disadvantage:
+    . not easy to use and slower to fetch data compare to Realm
+    . Like SQlite, it difficult to manage complex database
+
+- Realm: non-relational database
+  + Advantage:
+    . Easy to use
+    . faster fetching data than CoreData & SQLite
+    . Support to setup complex database (complex relationship between objects)
+    . Has cloud to syncing
+    . support iOS and android
+  + Disadvantage:
+    . still in development => it doesn’t have all the features
