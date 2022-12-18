@@ -1,4 +1,37 @@
 - Keychain is secure key-value storage
 - Keychain persists between app reinstalls unlike: user defaults, files on disk, core data
 - Disadvantage: API is difficult to use. Not suitable to store large amount of data such as images, videos, databases
-- Use keychain to save tokens and passwords
+- Use keychain to save tokens and password
+
+Example: https://viblo.asia/p/swift-luu-tru-du-lieu-bao-mat-hon-voi-keychain-XL6lAn7m5ek
+
+    func save(_ password: String, for account: String) {
+        let password = password.data(using: String.Encoding.utf8)!
+        let query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
+                                    kSecAttrAccount as String: account,
+                                    kSecValueData as String: password]
+        let status = SecItemAdd(query as CFDictionary, nil)
+        guard status == errSecSuccess else { return print("save error")
+    }
+    
+    func retrivePassword(for account: String) -> String? {
+        let query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
+                                    kSecAttrAccount as String: account,
+                                    kSecMatchLimit as String: kSecMatchLimitOne,
+                                    kSecReturnData as String: kCFBooleanTrue]
+
+
+        var retrivedData: AnyObject? = nil
+        let _ = SecItemCopyMatching(query as CFDictionary, &retrivedData)
+
+
+        guard let data = retrivedData as? Data else {return nil}
+        return String(data: data, encoding: String.Encoding.utf8)
+    }
+    
+- Use CryptoSwift
+    func saveEncryptedPassword(_ password: String, for account: String) {
+        let salt = Array("salty".utf8)
+        let key = try! HKDF(password: Array(password.utf8), salt: salt, variant: .sha256).calculate().toHexString()
+        keychainService.save(key, for: account)
+    }
