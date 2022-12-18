@@ -1,0 +1,10 @@
+1. What is NSUserDefaults
+  - NSUserDefaults is a key
+  -value storage that can persist serialized NSCoding compliant objects and primitives
+  - Main purpose: Store small objects such as some setting or flag like isAppFirstOpen, isMute
+2. Advantage and disadvantage
+  - Advantage: simple, easy to use
+  - Disadvantage: not suitable for store a large data and cannot query data
+3. Compare with Keychain
+  - Keychain is also a key-value storage but it more secure and persist between app uninstall
+  - Use Keychain instead of user default in case we want to store user’s password or access token
