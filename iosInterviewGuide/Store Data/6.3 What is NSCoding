@@ -1,0 +1,4 @@
+1. What is NSCoding
+  - NSCoding is protocol for data serialization necessary for some of the data
+  - storing operations using NSUserDefaults, NSFileManager and Keychain
+2. Example
