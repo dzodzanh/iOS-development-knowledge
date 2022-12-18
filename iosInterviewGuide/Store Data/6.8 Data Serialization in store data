@@ -1,0 +1,13 @@
+1. Flow
+DB -> raw data format -> custom domain model
+custom domain model -> raw data format -> DB
+
+2. Example in Core Data
+- Flow: 
+    Custom domain model -> NSManagedObject -> DB
+    DB -> NSManagedObject -> Custom domain model
+
+- We usually use NSManagedObject as our Custom domain model so the flow become
+    NSManagedObject -> DB
+    DB -> NSManagedObject
+=> It is not good because we will bring all the functionality of NSManagedObject when we use the data 
