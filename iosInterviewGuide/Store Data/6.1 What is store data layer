@@ -1,0 +1,9 @@
+- Store data layer is responsibility for saving, persisting, or mapping and serialization the data provided by other layer such as service layer.
+- The main point is that this layer decouples everything related to data storage and persistence from other classes and layers of the application
+- Some typical set of classed in storage layer
+    - Keychain
+    - NSUserDefaults
+    - File manager
+    - AVFoundation to store or retrieve audio and video files to/from disk
+    - Repository object: perform actually read/write to disk/database
+    - NSManagedObject: persist domain model objects to CoreData
