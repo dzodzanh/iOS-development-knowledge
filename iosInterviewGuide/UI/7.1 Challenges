@@ -1,0 +1,3 @@
+- The first is how the UI can responsive with multiple size of iphone and ipad
+- The second problem is performance when we working with UITableView and UICollectionView
+    + Need to quickly calculate the size of cell and other UI when user scroll so quickly
