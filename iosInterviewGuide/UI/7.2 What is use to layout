@@ -1,0 +1,7 @@
+There are 2 way to layout
+    + CGFrame:
+        . define exacly the coordinate (x and y) and the size of UI (width and height)
+        . This way is hard to use because it is difficult to calculate exactly the coordinate and size of UI for multiple screen size
+    + AutoLayout:
+        . define the relationship between view, it call constraint
+        . the UI will automatic reponsive to multiple screen size
