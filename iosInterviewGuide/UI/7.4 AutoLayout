@@ -1,0 +1,7 @@
+- AutoLayout is a technology that help to define the relationship between views, called constraints
+- It will help to auto-resize the view for each screen size
+- There are 3 things we need to care when we working with auto-layout
+  + NSLayoutRelation: lessThanOrEqual, equal, greaterThanOrEqual
+  + Constant: define the value of constrain
+  + priority: define the priority of the constrain
+- Library: SnapKit
