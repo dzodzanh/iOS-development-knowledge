@@ -1,0 +1,4 @@
+- Frame is a rectangle that represented by origin (x, y) and size (width, height)
+- Frame is not good to layout because it difficult to scale, adapt to multiple screen size
+  (we need to calculate exact origin and size for each sreensize)
+=> We should use Autolayout instead
