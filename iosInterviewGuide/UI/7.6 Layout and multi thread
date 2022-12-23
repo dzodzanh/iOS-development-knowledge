@@ -1,0 +1,1 @@
+- All the UI change need to perform on main thread. After add or remove or change the constrant need to call setNeedLayout
