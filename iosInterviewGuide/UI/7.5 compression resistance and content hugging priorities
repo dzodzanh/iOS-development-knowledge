@@ -1,0 +1,3 @@
+- Compression resistance priorirty: we use compression priority when the UI is smaller than its normal size,
+the more priory the more change the UI will back to its normal size
+- The hugging priority is oposite to compression priority, we use it when the UI is bigger than its normal size
