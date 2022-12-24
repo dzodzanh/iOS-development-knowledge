@@ -1,0 +1,12 @@
+- UICollection help to display complex layout for list of item like a grid.
+We can have multiple cell in the same row
+
+- Each cell can be a difference size
+
+- We need to work with 2 main delegate: UICollectionViewDelegate, UICollectionViewDataSource
+    + UICollectionViewDataSource:
+        . Number of item
+        . CellForRowAt
+    + UICollectionViewDelegate:
+        . didSelectItemAt
+        . willShowItemAt
