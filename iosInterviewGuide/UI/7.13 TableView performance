@@ -1,0 +1,9 @@
+- Fix the height of the cell if we can
+  self.tableView.rowHeight = 44.0
+  
+- Calculate cell height yourself instead
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return 100.0;//Choose your custom row height
+  }
+  
+- If we show the item from Network, so we need to get some item may be 5 or 10 item before its cell show on the screen
