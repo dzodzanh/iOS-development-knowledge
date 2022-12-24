@@ -1,0 +1,4 @@
+UIView.animate(withDuration: 0.3, delay: 0) {
+    // Change some constraint
+    self.view.layoutIfNeeded()
+}
