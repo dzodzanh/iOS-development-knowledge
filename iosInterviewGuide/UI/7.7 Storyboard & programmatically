@@ -1,0 +1,9 @@
+1. Story board
+    - Advantage: it visible, we can see the layout of view without build app
+    - Disavantage: it hard for the team working in the same story, because it cause merge conflict and it hard to fix.
+                    But if each view has 1 storyboard (xib file) then this problem will hardly to see
+2. Programmatically
+    - Advantage: merge-conflic free
+    - Disavantage:
+        + make the code too long to handle constraint
+        + It not visible, we must build the app to make sure the layout is fine
