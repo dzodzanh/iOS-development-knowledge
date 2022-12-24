@@ -1,0 +1,9 @@
+- Table view is a view show a list of item
+- Each item is a tableViewCell
+- When working with tableView, we work with UITableViewDataSource and UITableViewDelegate
+    + UITableViewDataSource:
+        . Show number of item, section
+        . How to layout: cellForRowAt
+    + UITableViewDelegate:
+        . DidSelectedItem
+        . willDisplay
