@@ -1,0 +1,3 @@
+- UIStackView is used to align views.
+- I use it when I want to align some views in horizontal or in vertical
+Or I want to remove or add view in runtime. The UIStackView will take care resize the item for me
