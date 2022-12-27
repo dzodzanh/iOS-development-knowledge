@@ -10,7 +10,7 @@ Struct & Class
 2. The difference between struct and class
   - Type:
     + struct: value type
-    + class: preference type
+    + class: reference type
     
     Example:
     struct Employee {
