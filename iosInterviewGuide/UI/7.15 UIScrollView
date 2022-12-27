@@ -1,0 +1,9 @@
+- UIScrollView is responsible for display content that too big and cannot fully display on the screen
+- We work with UIScrollViewDelegate, we usually work with scrollViewDidScroll
+
+
+self.scrollView.delegate = self
+
+func scrollViewDidScroll() {
+    print("Did receive scroll")
+}
