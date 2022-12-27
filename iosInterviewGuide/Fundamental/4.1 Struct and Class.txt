@@ -1,13 +1,13 @@
 Struct & Class
 
 
-1. The difference between struct and class
+1. The same between struct and class
   - Have stored properties & method
   - Have init()
   - Can extent by extension
   - Can implement protocol
   
-2. The same between struct and class
+2. The difference between struct and class
   - Type:
     + struct: value type
     + class: preference type
