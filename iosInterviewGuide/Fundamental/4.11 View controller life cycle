@@ -8,7 +8,7 @@
 
 
 2. Call backs
-  - ViewWillAppear
+  - viewDidLoad
       + Call when VC was loaded in memory in the first time
       + Setup UI + start get data
   - viewWillAppear
