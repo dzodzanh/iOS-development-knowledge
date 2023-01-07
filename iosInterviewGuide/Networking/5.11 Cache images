@@ -4,3 +4,61 @@
     + Disk storage: storeing downloaded files to the disk for quick later use
     instead of doing another fetch from the server.
 - Use library: SDWebImage, Kingfisher, Nuke
+
+
+
+    class func alamofireLoad(url: URL) {
+        guard let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(url.lastPathComponent) else { return }
+        let destination: DownloadRequest.Destination = { _, _ in
+            return (destinationURL: fileURL, options: [.removePreviousFile])
+        }
+        AF.download(url, to: destination).response { responseData in
+            switch responseData.result {
+            case .success(let url):
+                guard let url = url else { return }
+                print(url)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    class func load(url: URL, completion: @escaping (Data?) -> Void) {
+        let session = URLSession(configuration: .default)
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        let task = session.dataTask(with: request) { (data, response, error) in
+            if error == nil {
+                let statusCode = (response as? HTTPURLResponse)?.statusCode
+                // Do something with data
+                completion(data)
+            } else {
+                print("Failure \(error?.localizedDescription ?? "")")
+            }
+        }
+        task.resume()
+    }
+    
+    class func load(url: URL, to localUrl: URL, completion: @escaping () -> Void) {
+        let session = URLSession(configuration: .default)
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let task = session.downloadTask(with: request) { tmpLocalUrl, response, error in
+            if let tmpLocalUrl = tmpLocalUrl, error == nil {
+                if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                    print(statusCode)
+                }
+                
+                do {
+                    try FileManager.default.copyItem(at: tmpLocalUrl, to: localUrl)
+                    completion()
+                } catch (let error) {
+                    print("Error writing file \(localUrl): \(error.localizedDescription)")
+                }
+            } else {
+                print("Error writing file \(localUrl): \(error?.localizedDescription ?? "")")
+            }
+        }
+        task.resume()
+    }
